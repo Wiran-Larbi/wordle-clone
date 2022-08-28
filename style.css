@@ -1,0 +1,179 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Arial',sans-serif;
+}
+body{
+    background-color: #2C3333;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: clamp(.5rem,2.5vmin,1.5rem);
+}
+button{
+    all: unset;
+}
+.keyboard{
+    display: grid;
+    grid-template-columns: repeat(20,minmax(auto,1.25em));
+    grid-auto-rows: 1.4rem;
+    gap: .25em;
+    justify-content: center;
+}
+.key{
+    font-size: inherit;
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(
+        var(--hue,200),
+        var(--saturation, 2%),
+        calc(var(--lightness-offset,0%) + var(--lightness,60%))
+        );
+    color: #fff;
+    fill: #fff;
+    text-transform: uppercase;
+    border-radius: .2rem ;
+    cursor: pointer;
+    user-select: none;
+    
+}
+.key:hover , .key:focus{
+     --lightness-offset : 10%;
+}
+.key.large{
+    grid-column: span 3;
+}
+.key > svg{
+    width: 1.5em;
+    height: 1.85em;
+}  
+.key.wrong{
+    --lightness : 30%;
+}
+.key.wrong-location{
+     --hue : 47;
+     --saturation : 84%;
+     --lightness : 46%;
+}
+.key.correct{
+    --hue : 105;
+    --saturation : 50%;
+    --lightness : 48%;
+}
+/*? Guess Grid Styling  */
+.guess-grid{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    flex-grow: 1;
+    grid-template-columns: repeat(5,3.5em);
+    grid-template-rows: repeat(6,3.5em);
+    gap: .25em;
+    margin-bottom: 1.5rem; 
+}
+.tile{
+    font-size: 2em;
+    color: #fff;
+    border: .07em solid hsl(250, 0%, 35%);
+    text-transform: uppercase;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    transition: transform 250ms linear;
+}
+.tile[data-state= "active"]{
+    border-color: hsl(250, 0%, 52%);
+    background-color: transparent;
+}
+.tile[data-state= "wrong"]{
+   border: none;
+   background-color: hsl(250, 0%, 38%);
+}
+.tile[data-state= "wrong-location"]{
+    border: none;
+    background-color: hsl(45, 85%, 45%);
+}
+.tile[data-state= "correct"]{
+  border: none;
+  background-color: hsl(105, 50%, 45%);
+}
+.tile.flip{
+    transform: rotateX(90deg);
+}
+.tile.dance{
+    animation: dance 500ms ease-in-out; 
+}
+@keyframes dance {
+    20%{
+        transform: translateY(-50%);
+    } 40%{
+        transform: translateY(5%);
+    } 60%{
+        transform: translateY(-25%);
+    } 80%{
+        transform: translateY(2.5%);
+    } 90%{
+        transform: translateY(-5%);
+    } 100%{
+        transform: translateY(0);
+    }
+    
+}
+
+/**** ALERT STYLING   ***/
+.alert-container{
+     position: fixed;
+     top: 10vh;
+     left: 50vw;
+     transform: translateX(-50%);
+     z-index: 2;
+     display: flex;
+     align-items: center;
+     flex-direction: column;
+
+}
+.alert{
+     pointer-events: none;
+     text-align: center;
+     background-color: hsl(204, 7%, 80%);
+     padding: .4rem;
+     border-radius: .13rem;
+     opacity: .85;
+     transition: opacity 500ms ease-in-out;
+     margin-bottom: .2rem;
+     color: #282e2e;
+}
+.alert:last-child{
+    margin-bottom: 0;
+}
+.alert.hide{
+    opacity: 0;
+}
+.tile.shake{
+    animation: shake 250ms ease-in-out;
+}
+@keyframes shake{
+    10%{
+        transform: translateX(-5%);
+    }
+    30%{
+        transform: translateX(5% );
+    }
+    50%{
+        transform: translateX(-7.5%);
+    }
+    70%{
+        transform: translateX(7.5%);
+    }
+    90%{
+        transform: translateX(-5%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
